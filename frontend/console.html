@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Productos</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <!-- <script src="script.js" defer></script> -->
+    
+</head>
+<body>
+    <main class="container">
+        <h1>📦 Catalogo de Productos</h1>        
+        <button id="botonVerProductos">Ver Json del servidor</button>
+        <pre id="jsonOutput" style="background:#1d07ab; color: rgb(8, 234, 46); padding: 15px; margin-top: 10p; border: 2px solid red;"></pre>
+    </main>
+    <script>
+    const URL_API= "http://localhost:3000/api";
+
+    async function verJSON() {
+        try{
+            const respuesta = await fetch(`${URL_API}/productos`);
+            const datos = await respuesta.json();
+            const salida = document.getElementById("jsonOutput");
+            salida.textContent = JSON.stringify(datos,null,2);
+        }
+        catch{
+            console.log("Error de conexión:", error);
+        }
+    }
+    // Evento del botón
+    document.getElementById("botonVerProductos").addEventListener("click", verJSON);
+    </script>
+</body>
+</html>
