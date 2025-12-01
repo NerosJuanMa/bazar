@@ -5,11 +5,11 @@ const URL_API = "http://localhost:3000/api";
 async function cargarProductos() {
     try {
         // 1. Hacemos petición GET a la API
-        const respuesta = await fetch(`${URL_API}/productos`);
+        const respuesta = await fetch(`${URL_API}/productos`);        
         
         // 2. Convertimos la respuesta a JSON
         const datos = await respuesta.json();
-
+        
         // 3. Verificamos si la petición fue exitosa
         if (respuesta.ok) {
             mostrarProductos(datos.data);
