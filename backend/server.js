@@ -6,12 +6,18 @@ import cors from 'cors';
 import pool from './config/db.js';
 import productosRoutes from './routes/productos.routes.js';
 import authRoutes from './routes/auth.routes.js';
+import pedidosRoutes from './routes/pedidos.routes.js';
 
 const app = express();
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
+// Middleware de logging para desarrollo
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`);
+  next();
+});
 
 // Ruta raíz de prueba
 app.get('/', (req, res) => {
@@ -39,7 +45,7 @@ app.get('/api/probar-bbdd', async (req, res) => {
 // Rutas de la API
 app.use('/api/productos', productosRoutes);
 app.use('/api/auth', authRoutes);
-
+app.use('/api/pedidos', pedidosRoutes); 
 
 
 
