@@ -4,29 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuestra primera Api </title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Test Mínimo - API Productos</title>
+    <link rel="stylesheet" href="styles1.css">
 </head>
 
 <body>
-    <main class="container">
-        <h1>📦 Catálogo de Productos</h1>
-         <nav class="auth-nav" id="authNav">
-           
-
-                  <!-- 🔄 Este contenido se genera dinámicamente por JavaScript -->
-            </nav>
-        
-    
-
-         </nav>
-       <button id="btnVerJSON">Ver JSON del servidor</button>
-
-<pre id="jsonOutput" style="background:#111111; color:rgb(33, 221, 33); padding:15px; margin-top:10px;">
-</pre>
-<section class="auth-section" id="authSection">
+    <!--  📝 FORMULARIOS DE INICIO DE SESIÓN Y REGISTRO -->
+    <section class="auth-section" id="authSection">
     <div class="auth-container">
-
+        <!--  📝 FORMULARIO DE INICIO DE SESIÓN -->
         <div class="auth-form" id="loginForm">
             <h3>🔑 Iniciar Sesión</h3>
 
@@ -49,7 +35,7 @@
                 <a href="#" id="showRegister">Regístrate aquí</a>
             </p>
         </div>
-
+        <!--  📝 FORMULARIO DE REGISTRO -->
         <div class="auth-form hidden" id="registerForm">
             <h3>📝 Crear Cuenta</h3>
 
@@ -79,21 +65,37 @@
         </div>
 
     </div>
-</section>
+    </section>
 
-        
+    <!-- Listado de Productos -->
+<main>
+    <div class="container">
+        <h1>📦 Catálogo de Productos</h1>
+            <nav class="auth-nav" id="authNav">
+                  <!-- 🔄 Este contenido se genera dinámicamente por JavaScript -->
+            </nav>
+
+        <!-- Listado de Productos vista consola con boton para lanzarlo-->    
+        <button id="btnVerJSON">Ver JSON del servidor</button>
+        <pre id="jsonOutput" style="background:#111111; color:rgb(33, 221, 33); padding:15px; margin-top:10px;"></pre>
+
+        <!-- Aquí aparecerán los productos en tarjetas -->
+        <div id="productsGrid"></div>
+    </div>
         <!-- ====================================== -->
-        <!-- 📦 CATÁLOGO DE PRODUCTOS -->
+        <!-- 🛒 TIENDA (solo para usuarios logueados) -->
         <!-- ====================================== -->
-        <section class="productos-section">
-            <h2>🛍️ Nuestros Productos</h2>
-            <!-- Los productos se cargan dinámicamente aquí -->
-            <div id="productsGrid"></div>
-        </section>
+    
+ 
+    <div class="containerTienda" id="tienda">
+        <h1>📦 TIENDA</h1>
+        <!-- Aquí aparecerán los productos en tarjetas -->
+        <div id="productsGrid"></div>
 
         <!-- ====================================== -->
         <!-- 🛒 CARRITO DE COMPRAS (solo para usuarios logueados) -->
         <!-- ====================================== -->
+        
         <section class="carrito-section" id="carritoSection">
             <h2>🛒 Mi Carrito</h2>
             <div id="carritoContainer">
@@ -139,29 +141,11 @@
                 </div>
             </div>
         </section>
-         <section class="user-info hidden" id="userInfo">
-    <div class="user-card">
-        <div class="profile-header">
-            <div class="profile-avatar">
-                <img src="./images/foto.png" alt="Foto de perfil" class="profile-image">
-            </div>
-            
-            <div class="profile-info">
-                <h3>👤 Mi Perfil</h3>
-                <div id="userDetails"></div>
-            </div>
-        </div>
-        
-        <div class="profile-actions">
-            <button class="btn btn-danger" id="logoutBtn">
-                🚪 Cerrar Sesión
-            </button>
-        </div>
+
     </div>
-</section>
-    </main>
-    
-    <script src="app.js"></script>
+</main>
+
+    <script src="script1.js"></script>
 </body>
 
 </html>
