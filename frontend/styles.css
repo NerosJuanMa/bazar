@@ -32,6 +32,13 @@ h1, h2 {
   gap: 1.25rem;
 }
 
+/* Grid de cursos */
+#cursos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
 /* Tarjeta de producto */
 .product-card {
   background: #ffffff;
@@ -42,9 +49,27 @@ h1, h2 {
   flex-direction: column;
   gap: 0.5rem;
 }
-
+/* Tarjeta de Curso */
+.curso-card {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 /* Imagen del producto */
 .product-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Imagen del curso */
+.curso-image {
   width: 100%;
   height: 160px;
   object-fit: cover;
@@ -63,6 +88,21 @@ h1, h2 {
   color: #4b5563;
 }
 
+/* Texto del Curso */
+.curso-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.curso-card p {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+/* Curso-centro destacado */
+.curso-card p strong {
+  font-size: 1rem;
+  color: #16a34a;
+}
 /* Precio destacado */
 .product-card p strong {
   font-size: 1rem;
@@ -237,7 +277,7 @@ h1, h2 {
 }
 
 /* Tarjeta de producto */
-#productosTienda .product-card {
+#productosTienda .product-card .curso-card {
   background: white;
   padding: 15px;
   border-radius: 8px;
@@ -246,7 +286,7 @@ h1, h2 {
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-#productosTienda .product-card:hover {
+#productosTienda .product- .curso-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
@@ -309,7 +349,7 @@ h1, h2 {
 
 /* Elementos del carrito */
 .carrito-item {
-    
+
   display: flex;
   justify-content: space-between;
   gap: 8px;

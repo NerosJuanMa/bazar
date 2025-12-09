@@ -3,6 +3,8 @@ import { Router } from 'express';
 import * as productosController from '../controllers/productos.cotrollers.js';
 
 const productosRoutes = Router();
+
+
 /**
  * ==========================================
  * 📦 RUTAS DE PRODUCTOS

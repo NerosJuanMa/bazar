@@ -321,8 +321,8 @@ function mostrarInterfaz() {
   const authSection   = document.getElementById("authSection");   // Formularios login/registro
   const authNav       = document.getElementById("authNav");       // Barra superior
   const tiendaSection = document.getElementById("tiendaSection"); // Tienda para usuarios logados 
- const productosMostrar   = document.getElementById("productosMostrar"); // Muestra productos para usuarios NO logados 
-
+  const productosMostrar   = document.getElementById("productosMostrar"); // Muestra productos para usuarios NO logados 
+  
   const logueado = !!estado.usuario; // nace como null que es false pero no un boolean aqui lo que hace es convertirlo en un boolean
 
   // 📝 FORMULARIOS LOGIN/REGISTRO
@@ -775,6 +775,77 @@ function actualizarTotalCarrito() {
 }
 
 
+
+/* CURSOS */
+async function verCursosJSON() {
+  try {
+    // fetch() = "Ve y trae los datos de esta URL"
+    const respuesta = await fetch(`${URL_API}/cursos`);
+    const datos = await respuesta.json();
+    
+    // Mostrar los datos en formato JSON legible
+    const salida = document.getElementById("listaCursos");
+    if (salida) {
+      salida.textContent = JSON.stringify(datos, null, 2); // null, 2 = formato bonito
+    }
+  } catch (error) {
+    // Si algo sale mal (internet, servidor caído, etc.)
+    console.error("Error al obtener JSON:", error);
+  }
+}
+
+/**
+ * cargarCursos() - Carga y muestra Cursos en formato de tarjetas
+ */
+async function cargarCursos() {
+  try {
+    const respuesta = await fetch(`${URL_API}/cursos`);
+    const datos = await respuesta.json();
+
+    // Verificar que la petición fue exitosa Y que hay datos
+    if (respuesta.ok && datos.data) {
+      mostrarCursos(datos.data); // datos.data = array de Cursos
+    } else {
+      console.error("Error al cargar Cursos");
+    }
+  } catch (error) {
+    console.error("Error de conexión:", error);
+  }
+}
+
+/**
+ * mostrarCursos() - Convierte array de Cursos en HTML
+ * 
+ * @param {Array} lista - Array de productos del backend
+ *
+ */
+function mostrarCursos(lista) {
+  const contenedor = document.getElementById("cursos");
+  if (!contenedor) return; // Si no existe el elemento, salir
+
+  // .map() = "Por cada Curso, crear este HTML"
+  contenedor.innerHTML = lista.map(cursos => `
+    <div class="curso-card">
+      <img src="./images/foto.png" class="curso-image" alt="${cursos.id_curso}">
+      <h3>${cursos.nombre_curso || ""}</h3>
+      <p>${cursos.id_curso || ""}</p>
+      <p>${cursos.id_especialidad|| ""}</p>
+      <p>${cursos.fecha_realizacion || ""}</p>
+      <p>${cursos.FechaCalculadaAño || ""}</p>
+      <p>${cursos.practicas || ""}</p>
+      <p>${cursos.id_practicas || ""}</p>
+      <p>${cursos.duracion_curso || ""}</p>
+      <p>${cursos.conocimientos_adquiridos || ""}</p>
+      <p>${cursos.Centro_Estudio || ""}</p>
+      <p>${cursos.nombre || ""}</p>
+      <p>${cursos.familia || ""}</p>
+      <p>${cursos.aplicaciones || ""}</p>
+      
+    </div>
+  `).join(""); // .join("") = unir todo sin separadores
+}
+
+
 // =============================
 // 🚀 ARRANQUE DE LA APLICACIÓN
 // =============================
@@ -802,7 +873,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnVerJSON) {
     btnVerJSON.addEventListener("click", verJSON);
   }
-
+  // 🔘 BOTÓN "VER CURSOS JSON"
+  const btnVerCursosJSON = document.getElementById("verCursosJSON");
+  if (btnVerCursosJSON) {
+    btnVerCursosJSON.addEventListener("click", verCursosJSON);
+  }
   // 🔘 BOTÓN "FINALIZAR COMPRA"
   const btnFinalizar = document.getElementById("finalizarCompra");
   if (btnFinalizar) {
@@ -810,8 +885,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 📋 SECUENCIA DE INICIALIZACIÓN
+  cargarCursos()
   cargarProductos();        // 1. Cargar productos públicos (siempre visible)
   cargarSesionGuardada();   // 2. Restaurar sesión si existía
   configurarEventosLogin(); // 3. Conectar formularios de login/registro
   mostrarInterfaz();        // 4. Mostrar interfaz según estado de login
 });
+
+

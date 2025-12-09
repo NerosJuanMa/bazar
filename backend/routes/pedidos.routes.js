@@ -15,9 +15,9 @@ const pedidoRouter = Router();
 pedidoRouter.use(verificarToken);
 
 // Crear pedido (protegido)(Finalizar compra)
-pedidoRouter.post('/', pedidosController.crearPedido);
+pedidoRouter.post('/', verificarToken, pedidosController.crearPedido);
 
 // Obtener mis pedidos (protegido)
-pedidoRouter.get('/mis-pedidos', pedidosController.getMisPedidos);
+pedidoRouter.get('/mis-pedidos', verificarToken, pedidosController.getMisPedidos);
 
 export default pedidoRouter;
