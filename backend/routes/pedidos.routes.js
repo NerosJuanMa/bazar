@@ -11,11 +11,13 @@ const pedidoRouter = Router();
  * ==========================================
  * NOTA: Todas las rutas requieren autenticación
  */
+// 🔐 TODAS las rutas de pedidos necesitan que el usuario esté logueado
+pedidoRouter.use(verificarToken);
 
-// Crear pedido (protegido)
-pedidoRouter.post('/', verificarToken, pedidosController.crearPedido);
+// Crear pedido (protegido)(Finalizar compra)
+pedidoRouter.post('/', pedidosController.crearPedido);
 
 // Obtener mis pedidos (protegido)
-pedidoRouter.get('/mis-pedidos', verificarToken, pedidosController.getMisPedidos);
+pedidoRouter.get('/mis-pedidos', pedidosController.getMisPedidos);
 
 export default pedidoRouter;

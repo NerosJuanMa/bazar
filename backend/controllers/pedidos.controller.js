@@ -15,16 +15,18 @@ import * as pedidosModel from '../models/pedidos.model.js';
  */
 export async function crearPedido(req, res) {
   try {
-    const { productos } = req.body;
+    const { productos,total } = req.body;
     const cliente_id = req.user.cliente_id; // ->Viene del localstorage del Front, (token+user). y pasa por el middleware de autenticación.
     
     console.log('🛒 Creando pedido para cliente:', cliente_id);
     console.log('📦 Productos del pedido:', productos);
-    
+    console.log('💰 Total recibido en el body:', total);
+
     // Crear pedido
     const nuevoPedido = await pedidosModel.crear({
       cliente_id,
-      productos
+      productos,
+      total
     });
     
     res.status(201).json({

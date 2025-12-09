@@ -3,31 +3,40 @@ import pool from "../config/db.js";
 /**
  * Crear un pedido nuevo para un cliente
  * ==========================================**/
-export async function crearPedido(clienteId) {
-    const [result] = await pool.query(
-    `INSERT INTO pedidos (clienteId) VALUES (?)`,
-    [clienteId]
-    );
-    return {
+export async function crearPedido(clienteId,total) {
+  // Ejecutar INSERT en la tabla pedidos
+  // MySQL asignará automáticamente el ID y la fecha actual
+  const [result] = await pool.query(
+    "INSERT INTO pedidos (cliente_id,total) VALUES (?,?)",
+    [clienteId,total]
+  );
+
+  // Devolver la información del pedido creado
+  return {
     id: result.insertId,      // ID generado automáticamente por MySQL
     cliente_id: clienteId,    // ID del cliente que creó el pedido
-    estado: "pendiente",      // Estado por defecto
-    };
+    estado: "pendiente",  
+    total    // Estado por defecto
+  };
 }
+
 /**
  * Añadir un producto al pedido (línea de pedido)
  * ============================================== **/
-export async function agregarProductoPedido({ pedidoId, productoId, cantidad }) {
-    const [result] = await pool.query(
+export async function agregarProductoAPedido({ pedidoId, productoId, cantidad }) {
+  // Insertar línea de pedido en la tabla pedidos_productos
+  const [result] = await pool.query(
     "INSERT INTO pedidos_productos (pedido_id, producto_id, cantidad) VALUES (?, ?, ?)",
     [pedidoId, productoId, cantidad]
-    );
-    return {
+  );
+
+  // Devolver información de la línea de pedido creada
+  return {
     id: result.insertId,     // ID de la línea de pedido
     pedido_id: pedidoId,     // ID del pedido padre
     producto_id: productoId, // ID del producto agregado
     cantidad,                // Cantidad del producto
-    };    
+  };
 }
 
 /**
@@ -66,6 +75,7 @@ export async function obtenerLineasDePedido(idPedido) {
   return rows;
 }
 
+
 /**
  * Obtener todos los pedidos de un cliente
  * ==========================================**/
@@ -90,6 +100,7 @@ export async function actualizarEstado(idPedido, nuevoEstado) {
     "UPDATE pedidos SET estado = ? WHERE id = ?",
     [nuevoEstado, idPedido]
   );
+
   // Devolver confirmación del cambio
   return { 
     id: idPedido, 
@@ -100,10 +111,10 @@ export async function actualizarEstado(idPedido, nuevoEstado) {
 /**
  * Crear pedido completo con productos para un boton que lance el pedido completo
  * ==========================================**/
-export async function crear({ cliente_id, productos = [] }) {
+export async function crear({ cliente_id, productos = [],total }) {
   try {
     // Paso 1: Crear la cabecera del pedido
-    const pedido = await crearPedido(cliente_id);
+    const pedido = await crearPedido(cliente_id,total);
     
     // Paso 2: Agregar productos al pedido (si hay productos)
     const productosAgregados = [];
@@ -122,6 +133,7 @@ export async function crear({ cliente_id, productos = [] }) {
       id: pedido.id,
       cliente_id: pedido.cliente_id,
       estado: pedido.estado,
+      total,
       productos: productosAgregados,
       total_productos: productosAgregados.length
     };

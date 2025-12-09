@@ -10,6 +10,7 @@ const productosRoutes = Router();
  */
  
 // Obtener todos los productos
+//Nos creamos una ruta donde se van a exponer a todos los productos
 productosRoutes.get('/', productosController.getProductos);
 
 // GET /api/productos
