@@ -100,6 +100,7 @@ export function verificarToken(req, res, next) {
       id: decoded.cliente_id,         // Alias para compatibilidad
       email: decoded.email,           // Email del usuario (si está en el token)
       nombre: decoded.nombre          // Nombre del usuario (si está en el token)
+      
     };
 
     // ==========================================
