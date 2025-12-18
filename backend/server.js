@@ -9,6 +9,7 @@ import productosRoutes from './routes/productos.routes.js';
 import cursosRoutes from './routes/cursos.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import pedidosRoutes from './routes/pedidos.routes.js';
+import likesRoutes from './routes/likes.routes.js';
 
 const app = express();
 
@@ -67,8 +68,81 @@ app.use('/api/productos', productosRoutes);
 app.use('/api/cursos', cursosRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/pedidos', pedidosRoutes); 
+app.use('/api/likes', likesRoutes); 
+
+//******************LIKES**********************//
+//Obtener estado del like
+// app.get('/status', (req, res) => {
+//   const pageId = req.query.page_id;
+//   const userIp = req.ip;
+
+//   const likedQuery = `
+//     SELECT id FROM likes WHERE page_id=? AND user_ip=?
+//   `;
+//   const countQuery = `
+//     SELECT COUNT(*) AS total FROM likes WHERE page_id=?
+//   `;
+
+//   pool2.query(likedQuery, [pageId, userIp], (err, likedResult) => {
+//     if (err) return res.sendStatus(500);
+
+//     const liked = likedResult.length > 0;
+
+//     pool2.query(countQuery, [pageId], (err, countResult) => {
+//       if (err) return res.sendStatus(500);
+
+//       res.json({
+//         liked,
+//         total: countResult[0].total
+//       });
+//     });
+//   });
+// });
+
+//Dar / quitar like (toggle)
 
 
+app.post('/like', (req, res) => {
+  const pageId = req.body.page_id;
+  const userIp = req.ip;
+
+  const checkQuery = `
+    SELECT id FROM likes WHERE page_id=? AND user_ip=?
+  `;
+
+  pool2.query(checkQuery, [pageId, userIp], (err, result) => {
+    if (err) return res.sendStatus(500);
+
+    if (result.length > 0) {
+      // Quitar like
+      const delQuery = `
+        DELETE FROM likes WHERE page_id=? AND user_ip=?
+      `;
+      pool2.query(delQuery, [pageId, userIp], () => {
+        sendCount(false);
+      });
+    } else {
+      // Dar like
+      const insQuery = `
+        INSERT INTO likes (page_id, user_ip) VALUES (?,?)
+      `;
+      pool2.query(insQuery, [pageId, userIp], () => {
+        sendCount(true);
+      });
+    }
+  });
+
+  function sendCount(liked) {
+    pool2.query(
+      'SELECT COUNT(*) AS total FROM likes WHERE page_id=?',
+      [pageId],
+      (err, result) => {
+        if (err) return res.sendStatus(500);
+        res.json({ liked, total: result[0].total });
+      }
+    );
+  }
+});
 
 
 // Arrancar el servidor

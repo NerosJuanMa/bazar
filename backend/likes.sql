@@ -1,0 +1,10 @@
+CREATE DATABASE likes_db;
+USE likes_db;
+
+CREATE TABLE likes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  page_id VARCHAR(255) NOT NULL,
+  user_ip VARCHAR(45) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (page_id, user_ip)
+);
