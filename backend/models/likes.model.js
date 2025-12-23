@@ -1,47 +1,31 @@
-import pool2 from "../config/db2.js";
+import pool2 from '../config/db2.js';
 
-export async function likedQuery() {
-    const [rows] = await pool2.query(
-    `SELECT id FROM likes WHERE page_id=? AND user_ip=?`
+export async function isLiked(pageId, userIp) {
+  const [rows] = await pool2.query(
+    'SELECT id FROM likes WHERE page_id=? AND user_ip=?',
+    [pageId, userIp]
   );
-  return rows;
+  return rows.length > 0;
 }
 
-export async function countQuery() {
-    const [rows] = await pool2.query(
-    `SELECT COUNT(*) AS total FROM likes WHERE page_id=?`
+export async function countLikes(pageId) {
+  const [rows] = await pool2.query(
+    'SELECT COUNT(*) AS total FROM likes WHERE page_id=?',
+    [pageId]
   );
-  return rows;
+  return rows[0].total;
 }
- 
-export async function obtenerlikes() {
-    const [rows] = await pool2.query(
-    `SELECT * FROM likes WHERE page_id=? AND user_ip=?`
+
+export async function addLike(pageId, userIp) {
+  await pool2.query(
+    'INSERT INTO likes (page_id, user_ip) VALUES (?,?)',
+    [pageId, userIp]
   );
-  return rows;
 }
 
-export async function sendCount(liked) {
-    const [rows] = pool2.query(
-      'SELECT COUNT(*) AS total FROM likes WHERE page_id=?',
-      [pageId],
-    );
-    return rows;
+export async function removeLike(pageId, userIp) {
+  await pool2.query(
+    'DELETE FROM likes WHERE page_id=? AND user_ip=?',
+    [pageId, userIp]
+  );
 }
-    // Quitar like
-export async function delQuery(liked) {
-    const [rows] = pool2.query(
-      ' DELETE FROM likes WHERE page_id=? AND user_ip=?',
-    );
-    return rows;
-}
-      
-    // Dar like
-export async function insQuery(liked) {
-    const [rows] = pool2.query(
-      ' INSERT INTO likes (page_id, user_ip) VALUES (?,?)'
-    );
-    return rows;
-}      
-
- 

@@ -63,50 +63,50 @@ let estado = {
 
 //LIKE CORAZONES//
 
-const pageId = 'mi_pagina_unica';
-const btn_like = document.getElementById('likeBtn');
-const count = document.getElementById('likeCount');
+// const pageId = 'mi_pagina_unica';
+// const btn_like = document.getElementById('likeBtn');
+// const count = document.getElementById('likeCount');
 
 // Estado inicial
-fetch(`http://localhost:3000/status?page_id=${pageId}`)
-  .then(res => res.json())
-  .then(data => {
-    count.textContent = data.total;
-    if (data.liked) btn_like.classList.add('liked');
-  });
+// fetch(`http://localhost:3000/status?page_id=${pageId}`)
+//   .then(res => res.json())
+//   .then(data => {
+//     count.textContent = data.total;
+//     if (data.liked) btn_like.classList.add('liked');
+//   });
 
-btn_like.addEventListener('click', () => {
-  fetch('http://localhost:3000/like', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ page_id: pageId })
-  })
-  .then(res => res.json())
-  .then(data => {
-    count.textContent = data.total;
-    btn_like.classList.toggle('liked', data.liked);
-    pop();
-    if (data.liked) hearts();
-  });
-});
+// btn_like.addEventListener('click', () => {
+//   fetch('http://localhost:3000/like', {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({ page_id: pageId })
+//   })
+//   .then(res => res.json())
+//   .then(data => {
+//     count.textContent = data.total;
+//     btn_like.classList.toggle('liked', data.liked);
+//     pop();
+//     if (data.liked) hearts();
+//   });
+// });
 
-function pop() {
-  btn_like.classList.add('pop');
-  setTimeout(() => btn_like.classList.remove('pop'), 200);
-}
+// function pop() {
+//   btn_like.classList.add('pop');
+//   setTimeout(() => btn_like.classList.remove('pop'), 200);
+// }
 
-function hearts() {
-  for (let i = 0; i < 6; i++) {
-    const h = document.createElement('div');
-    h.className = 'heart';
-    h.textContent = '❤️';
-    const r = btn_like.getBoundingClientRect();
-    h.style.left = (r.left + Math.random() * r.width) + 'px';
-    h.style.top = r.top + 'px';
-    document.body.appendChild(h);
-    setTimeout(() => h.remove(), 1000);
-  }
-}
+// function hearts() {
+//   for (let i = 0; i < 6; i++) {
+//     const h = document.createElement('div');
+//     h.className = 'heart';
+//     h.textContent = '❤️';
+//     const r = btn_like.getBoundingClientRect();
+//     h.style.left = (r.left + Math.random() * r.width) + 'px';
+//     h.style.top = r.top + 'px';
+//     document.body.appendChild(h);
+//     setTimeout(() => h.remove(), 1000);
+//   }
+// }
 
 
 

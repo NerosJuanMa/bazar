@@ -1,17 +1,13 @@
 import { Router } from 'express';
-import * as likesController from '../controllers/likes.controller.js';
+import {
+  getStatus,
+  toggleLike
+} from '../controllers/likes.controller.js';
 
-const likesRoutes = Router();
+const router = Router();
 
-/**
- * ==========================================
- * 📦 RUTAS DE likes
- * ==========================================
- */
- 
-likesRoutes.get('/likes', likesController.getlikes);
-likesRoutes.get('/count', likesController.sendCountlikes);
+router.get('/status', getStatus);
+router.post('/toggle', toggleLike);
 
-export default likesRoutes;
-
+export default router;
 
